@@ -14,7 +14,7 @@ from django.utils import timezone
 
 
 class Index(TemplateView):
-    template_name = 'index.html'
+    template_name = 'index1.html'
 
 
     @staticmethod
