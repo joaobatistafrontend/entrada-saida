@@ -14,7 +14,7 @@ from django.utils import timezone
 
 
 class Index(TemplateView):
-    template_name = 'index1.html'
+    template_name = 'index.html'
 
 
     @staticmethod
@@ -66,6 +66,7 @@ class Index(TemplateView):
                                 entrada_correta=False,
                                 saida_correta=True
                             )
+                            tipo_registro = "Saída"
                         else:
                             # Se a última verificação foi uma saída, registrar uma entrada
                             Verificacao.objects.create(
@@ -74,6 +75,7 @@ class Index(TemplateView):
                                 entrada_correta=True,
                                 saida_correta=False
                             )
+                            tipo_registro = "Entrada"
                     else:
                         # Se não há verificações anteriores, registrar uma entrada
                         Verificacao.objects.create(
@@ -82,12 +84,14 @@ class Index(TemplateView):
                             entrada_correta=True,
                             saida_correta=False
                         )
+                        tipo_registro = "Entrada"
+
 
                     # Remover a imagem temporária após o uso
                     os.remove(temp_image_path)
 
                     # Aqui você pode adicionar lógica adicional ou retornar o resultado desejado
-                    return person.nome, horario_atual.strftime("Horario %H:%M:%S"), horario_atual.strftime("Data %Y-%m-%d")
+                    return person.nome, tipo_registro, horario_atual.strftime("Horario %H:%M:%S"), horario_atual.strftime("Data %Y-%m-%d")
 
 
         # Remover a imagem temporária após o uso
