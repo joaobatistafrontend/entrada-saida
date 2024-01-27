@@ -1,0 +1,5 @@
+.form-select option{
+    font-weight: 600;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 20px;
+}

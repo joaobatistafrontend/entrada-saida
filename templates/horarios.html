@@ -1,0 +1,61 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/horarios.css' %}">
+    <title>Horarios</title>
+</head>
+<body>
+    <h2>Quadro de horarios</h2>
+
+    {% for nome, horarios in horarios_pessoas.items %}
+        <p>{{ nome }}</p>
+        <ul>
+            {% for horario in horarios %}
+                <li>{{ horario }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    <h2>slvsbdv</h2>
+    
+    
+    
+
+    {% for nome, horarios_info in horarios_pessoas.items %}
+    <select class="form-select">
+            <option selected>{{ nome }}</option>
+                {% for horario_info in horarios_info %}
+                    <option value="1">{{ horario_info.horario }} - {{ horario_info.tipo_registro }}</option>
+                {% endfor %}
+
+        </select>
+        {% endfor %}
+        
+        
+    </body>
+</html>
+<!-- 
+    {% for i in verificacoes %}
+    <p>{{i.pessoa}}</p>
+    <li>{{i.horario}}</li>
+
+
+
+
+
+
+
+    <h2>Quadro de horários</h2>
+
+{% for nome, horarios_info in horarios_pessoas.items %}
+    <p>{{ nome }}</p>
+    <ul>
+        {% for horario_info in horarios_info %}
+            <li>{{ horario_info.horario }} - {{ horario_info.tipo_registro }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+{% endfor%}-- > 

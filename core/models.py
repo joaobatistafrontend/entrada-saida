@@ -1,5 +1,8 @@
 from django.db import models
 import datetime
+from django.utils import timezone
+
+
 
 class Verificacao(models.Model):
     pessoa = models.ForeignKey('Pessoa', on_delete=models.CASCADE)
@@ -7,9 +10,17 @@ class Verificacao(models.Model):
     
     entrada_correta = models.BooleanField(default=False)
     saida_correta = models.BooleanField(default=False)
-
+    duracao_trabalho = models.IntegerField(blank=True, null=True)
     def obter_status_saida(self):
         return 'Saída' if self.saida_correta else 'Entrada'
+    def calcular_duracao(self):
+        if self.saida_correta and self.entrada_correta:
+            duracao = self.saida_correta - self.entrada_correta
+            duracao = int(duracao.total_seconds() // 60)
+            return duracao
+        else:
+            return None
+
 
 class Empresa(models.Model):
     nome = models.CharField(max_length=100)

@@ -5,6 +5,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('upload/', Index.as_view(), name='upload'),
+    path('horarios/', Horario.as_view(), name='upload'),
 
 ]
 if settings.DEBUG:

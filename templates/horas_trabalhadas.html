@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Horas Trabalhadas</title>
+</head>
+<body>
+    <!-- Na página que lista todas as pessoas -->
+{% for pessoa in pessoas %}
+<p>{{ pessoa.nome }} - <a href="{% url 'horas_trabalhadas' pessoa.id %}">Ver Horas</a></p>
+{% endfor %}
+
+    <h2>Horas Trabalhadas para {{ pessoa.nome }}</h2>
+    <p>Horas no mês: {{ horas_mes }}</p>
+    <p>Horas na quinzena: {{ horas_quinzena }}</p>
+    <p>Horas na semana: {{ horas_semana }}</p>
+    <p>Horas no dia: {{ horas_dia }}</p>
+</body>
+</html>

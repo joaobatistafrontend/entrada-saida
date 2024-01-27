@@ -13,6 +13,48 @@ import os
 from django.utils import timezone  
 
 
+
+
+
+
+
+
+
+
+class Horario(TemplateView):
+    template_name = 'horarios.html'
+
+    def get(self, request):
+        pessoas = Pessoa.objects.all()
+        verificacoes = Verificacao.objects.all()
+
+        # Criar um conjunto de nomes únicos de pessoas
+        nomes_pessoas = set(pessoa.nome for pessoa in pessoas)
+
+        # Criar um dicionário para armazenar os horários de cada pessoa
+        horarios_pessoas = {nome: [] for nome in nomes_pessoas}
+        
+        # Preencher o dicionário com os horários de cada pessoa
+        for verificacao in verificacoes:
+            horarios_pessoas[verificacao.pessoa.nome].append({
+                'horario': verificacao.horario,
+                'tipo_registro': 'Entrada' if verificacao.entrada_correta else 'Saída'
+            })
+        
+        #for verificacao in verificacoes:
+        #    horarios_pessoas[verificacao.pessoa.nome].append(verificacao.horario)
+
+
+
+
+
+        return render(request, self.template_name, {'horarios_pessoas': horarios_pessoas})
+
+
+
+
+
+
 class Index(TemplateView):
     template_name = 'index.html'
 
