@@ -19,7 +19,7 @@
         <video id="video" width="640" height="480" autoplay  muted style="background-color: black;"></video>
         <button id="capture-btn"><span>Capturar Foto</span></button>
     </div>
-
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'horarios' %}'">Quadro de horarios</button>
     <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
 
     <form method="post" enctype="multipart/form-data" id="image-form" style="display:none;" action="/upload/">        {% csrf_token %}

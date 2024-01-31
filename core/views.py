@@ -90,7 +90,6 @@ class Index(TemplateView):
             for i, encoding in enumerate(imagem_enviada_encodings):
                 # Comparar o encoding do rosto encontrado com o encoding da pessoa
                 result = face_recognition.compare_faces(pessoa_encodings, encoding)
-
                 if any(result):
                     horario_atual = timezone.now()
 
@@ -102,11 +101,15 @@ class Index(TemplateView):
                     if ultima_verificacao:
                         # Se a última verificação foi uma entrada, registrar uma saída
                         if ultima_verificacao.entrada_correta:
+                            duracao_trabalho = ultima_verificacao.horario_entrada - horario_atual
+                            # Criar uma nova Verificacao com saída e calcular a duração do trabalho
                             Verificacao.objects.create(
                                 pessoa=person,
                                 horario=horario_atual,
                                 entrada_correta=False,
-                                saida_correta=True
+                                saida_correta=True,
+                                duracao_trabalho=duracao_trabalho,
+                                horario_saida=horario_atual
                             )
                             tipo_registro = "Saída"
                         else:
@@ -115,7 +118,9 @@ class Index(TemplateView):
                                 pessoa=person,
                                 horario=horario_atual,
                                 entrada_correta=True,
-                                saida_correta=False
+                                saida_correta=False,
+                                horario_entrada=horario_atual
+
                             )
                             tipo_registro = "Entrada"
                     else:
@@ -124,7 +129,9 @@ class Index(TemplateView):
                             pessoa=person,
                             horario=horario_atual,
                             entrada_correta=True,
-                            saida_correta=False
+                            saida_correta=False,
+#                            hora_entrada = horario_atual
+                            
                         )
                         tipo_registro = "Entrada"
 

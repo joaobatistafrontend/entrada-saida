@@ -4,24 +4,26 @@ from django.utils import timezone
 
 
 
+
 class Verificacao(models.Model):
     pessoa = models.ForeignKey('Pessoa', on_delete=models.CASCADE)
     horario = models.DateTimeField(auto_now_add=True)
     
+    horario_entrada = models.DateTimeField(blank=True, null=True)
+    horario_saida = models.DateTimeField(blank=True, null=True)
+    
     entrada_correta = models.BooleanField(default=False)
     saida_correta = models.BooleanField(default=False)
     duracao_trabalho = models.IntegerField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        # Calcula a duração de trabalho antes de salvar
+        if self.horario_entrada and self.horario_saida:
+            diff_minutes = (self.horario_saida - self.horario_entrada).total_seconds() / 60
+            self.duracao_trabalho_minutos = int(diff_minutes)
+
     def obter_status_saida(self):
         return 'Saída' if self.saida_correta else 'Entrada'
-    def calcular_duracao(self):
-        if self.saida_correta and self.entrada_correta:
-            duracao = self.saida_correta - self.entrada_correta
-            duracao = int(duracao.total_seconds() // 60)
-            return duracao
-        else:
-            return None
-
-
 class Empresa(models.Model):
     nome = models.CharField(max_length=100)
     hora_entrada = models.TimeField()
@@ -74,3 +76,18 @@ class Pessoa(models.Model):
             horas_extras = max(horas_trabalhadas - horas_normais, 0)
             return horas_extras
         return 0
+
+
+
+'''    def calcular_duracao(self):
+        if self.horario_entrada and self.horario_saida:
+            duracao = self.horario_entrada - self.horario
+            duracao_em_minutos = int(duracao)
+            return duracao_em_minutos
+        else:
+            return int(0)
+
+    def save(self, *args, **kwargs):
+        self.duracao_trabalho = self.calcular_duracao()
+        super(Verificacao, self).save(*args, **kwargs)
+'''
